@@ -55,7 +55,6 @@ for options, value in opts:
     # 手机号 如13933893931
     elif options == "-p":
         phone_number = str(value)
-        print type(phone_number)
 
     # qq号 -q 如381769096
     elif options == "-q":
@@ -108,10 +107,23 @@ weak_password = [ "a", "qwerty", "ab", "abc", "qazwsx",
 if IDC and (birthday is None):
     birthday = IDC[6:14]
 
-
-
 if birthday:
     birthday_list = [birthday, birthday[0:4], birthday[2:], birthday[4:]]
+
+if domain:
+    # www.baidu.com www.xxxx.edu.cn
+    domain_split = domain.split('.')
+    if len(domain_split) < 4:
+        domain_list = [domain, domain_split[1], domain_split[1]+'.'+domain_split[2],
+                       domain_split[0]+domain_split[1]+domain_split[2],
+                       domain_split[1]+domain_split[2]]
+    elif len(domain_split) == 4:
+        domain_list = [domain, domain_split[1], domain_split[1] + '.' + domain_split[2] + '.' + domain_split[3],
+                       domain_split[0] + domain_split[1] + domain_split[2]+ domain_split[3],
+                       domain_split[1] + domain_split[2] + domain_split[3]]
+    else:
+        raise RuntimeError('domain is right?')
+
 
 
 def write_dict(dict_list, file_name):
