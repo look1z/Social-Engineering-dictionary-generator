@@ -26,7 +26,7 @@ for options, value in opts:
         usage()
         sys.exit()
 
-    # 姓名 -n liming
+    # 姓名 -n (每个字之间用“.”分开)li.ming   wang.yu.chen
     elif options == "-n":
         name = value
 
@@ -72,10 +72,6 @@ for options, value in opts:
     # elif options == "-":
     #     city = value
 
-    # 姓名简称 liming --> lm
-    elif options == "-N":
-        name_ab = value
-
     # 企业名(中文，中文简称，英文，英文简称)
 
 
@@ -103,6 +99,14 @@ weak_password = [ "a", "qwerty", "ab", "abc", "qazwsx",
                  "aa", "woaini", "asdf", "iloveyou",
                  "zxc", ]
 
+if name:
+    name_ab = ''
+    name_list = name.split('.')
+    for i in name_list:
+        name_ab += i[0]
+    print name_list,name_ab
+
+
 # 通过身份证号提取生日
 if IDC and (birthday is None):
     birthday = IDC[6:14]
@@ -123,7 +127,6 @@ if domain:
                        domain_split[1] + domain_split[2] + domain_split[3]]
     else:
         raise RuntimeError('domain is right?')
-
 
 
 def write_dict(dict_list, file_name):
