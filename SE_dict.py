@@ -94,16 +94,18 @@ number_value_4 = ["000000", "111111", "110120", "123321",
                   "888888888", "999999999", "000000000"]
 
 
-weak_password = [ "a", "qwerty", "ab", "abc", "qazwsx",
+weak_password = [ "a", "qwerty", "qwert", "ab", "abc", "qazwsx",
                  "1q2w3e4r", "abcd", "qwer", "qwe",
                  "aa", "woaini", "asdf", "iloveyou",
                  "zxc", ]
 
 if name:
-    name_ab = ''
-    name_list = name.split('.')
+    name_a = ''
+    name_list = name.split('.') # 字 列表
     for i in name_list:
-        name_ab += i[0]
+        name_a += i[0] # 简称
+    name_ab = [name_a, name_list[0]]
+    name = name.replace('.', '')
     print name_list,name_ab
 
 
@@ -144,7 +146,8 @@ def name_and_weak(name,name_ab):
     dict_list.append(name)
     for weak in weak_password:
         dict_list.append(name + weak)
-        dict_list.append(name_ab + weak)
+        for i in name_ab:
+            dict_list.append(i + weak)
 
     for number in number_value_1:
         dict_list.append(name + number)
@@ -156,7 +159,8 @@ def name_and_weak(name,name_ab):
         dict_list.append(name + number)
 
     for number in number_value_4:
-        dict_list.append(name_ab + number)
+        for i in name_ab:
+            dict_list.append(i + number)
 
     write_dict(dict_list=dict_list, file_name=filename)
 
@@ -181,12 +185,14 @@ def name_and_birthday(name, name_ab, birthday):
         # 全称+生日
         dict_list.append(name + birth)
         # 简称+生日
-        dict_list.append(name_ab + birth)
+        for i in name_ab:
+            dict_list.append(i + birth)
 
         for weak in weak_password:
 
             # 简称与生日与弱口令
-            dict_list.append(name_ab + birth + weak)
+            for i in name_ab:
+                dict_list.append(i + birth + weak)
 
     write_dict(dict_list=dict_list, file_name=filename)
 
@@ -200,8 +206,9 @@ def IDC_and_weak(idc_number):
 def IDC_and_name(idc_number, name, name_ab):
     # 身份证与名称组合
     dict_list = list()
-    dict_list.append([idc_number[14:]+name_ab, name_ab+idc_number[14:],
-                      name+idc_number[14:], idc_number[14:]+name])
+    dict_list.append([name+idc_number[14:], idc_number[14:]+name])
+    for i in name_ab:
+        dict_list.append([idc_number[14:]+i, i+idc_number[14:]])
 
     write_dict(dict_list=dict_list, file_name=filename)
 
@@ -221,7 +228,9 @@ def phone_number_and_name(phone_number, name, name_ab):
     dict_list = list()
     phone_number_list = [phone_number, phone_number[7:], phone_number[3:]]
     for i in phone_number_list:
-        dict_list.append([i+name, i+name_ab, name_ab+i, name+i])
+        dict_list.append([i+name, name+i])
+        for j in name_ab:
+            dict_list.append([i + j, j + i])
 
     write_dict(dict_list=dict_list, file_name=filename)
 
