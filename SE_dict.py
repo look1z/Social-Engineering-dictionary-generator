@@ -149,19 +149,39 @@ def name_and_weak(name,name_ab):
         for i in name_ab:
             dict_list.append(i + weak)
 
-    for number in number_value_1:
-        dict_list.append(name + number)
+    for number_1 in number_value_1:
+        dict_list.append(name + number_1)
 
-    for number in number_value_2:
-        dict_list.append(name + number)
+    for number_2 in number_value_2:
+        dict_list.append(name + number_2)
 
-    for number in number_value_3:
-        dict_list.append(name + number)
+    for number_3 in number_value_3:
+        dict_list.append(name + number_3)
 
-    for number in number_value_4:
+    for number_4 in number_value_4:
         for i in name_ab:
-            dict_list.append(i + number)
+            dict_list.append(i + number_4)
 
+    write_dict(dict_list=dict_list, file_name=filename)
+
+
+def domain_and_weak(domain_list):
+    # 域名与弱口令
+    dict_list = list()
+    for domain_i in domain_list:
+        dict_list.append(domain_i)
+
+    write_dict(dict_list=dict_list, file_name=filename)
+
+
+def name_and_domain(name, name_ab, domain_list):
+    # 域名与姓名结合
+    dict_list = list()
+    for domain_i in domain_list:
+        dict_list.extend([name+domain_i, domain_i+name])
+        for z in name_ab:
+            dict_list.extend([z+domain_i, domain_i+z])
+    print dict_list
     write_dict(dict_list=dict_list, file_name=filename)
 
 
@@ -169,7 +189,7 @@ def birthday_and_weak(birthday):
     # 生日与弱口令字段组合
     dict_list = list()
     # 几种常见的生日组合
-    dict_list.append([birthday, birthday[2:], birthday[4:]+birthday[:4]])
+    dict_list.extend([birthday, birthday[2:], birthday[4:]+birthday[:4]])
     for birth in birthday:
         for weak in weak_password:
             dict_list.append(birth + weak)
@@ -199,16 +219,16 @@ def name_and_birthday(name, name_ab, birthday):
 
 def IDC_and_weak(idc_number):
     dict_list = list()
-    dict_list.append([idc_number[12:], idc_number, ])
+    dict_list.extend([idc_number[12:], idc_number, ])
     write_dict(dict_list=dict_list, file_name=filename)
 
 
 def IDC_and_name(idc_number, name, name_ab):
     # 身份证与名称组合
     dict_list = list()
-    dict_list.append([name+idc_number[14:], idc_number[14:]+name])
+    dict_list.extend([name+idc_number[14:], idc_number[14:]+name])
     for i in name_ab:
-        dict_list.append([idc_number[14:]+i, i+idc_number[14:]])
+        dict_list.extend([idc_number[14:]+i, i+idc_number[14:]])
 
     write_dict(dict_list=dict_list, file_name=filename)
 
@@ -216,7 +236,7 @@ def IDC_and_name(idc_number, name, name_ab):
 def phone_number_and_weak(phone_number):
     # 手机号与弱口令组合
     dict_list = list()
-    dict_list.append([phone_number, phone_number[3:], ])
+    dict_list.extend([phone_number, phone_number[3:], ])
     for i in weak_password:
         dict_list.append(phone_number+i)
         dict_list.append(phone_number[7:]+i)
@@ -228,17 +248,16 @@ def phone_number_and_name(phone_number, name, name_ab):
     dict_list = list()
     phone_number_list = [phone_number, phone_number[7:], phone_number[3:]]
     for i in phone_number_list:
-        dict_list.append([i+name, name+i])
+        dict_list.extend([i+name, name+i])
         for j in name_ab:
-            dict_list.append([i + j, j + i])
+            dict_list.extend([i + j, j + i])
 
     write_dict(dict_list=dict_list, file_name=filename)
 
 
-
 if __name__ == "__main__":
 
-    print name,birthday,mail,IDC,domain,number_value_2, name_ab
+    #print name,birthday,mail,IDC,domain,number_value_2, name_ab
 
     filename = raw_input('file=')
     if name:
@@ -257,7 +276,10 @@ if __name__ == "__main__":
         if name:
             phone_number_and_name(phone_number,name,name_ab)
 
-
+    if domain:
+        domain_and_weak(domain_list)
+        if name:
+            name_and_domain(name=name, name_ab=name_ab, domain_list=domain_list)
 
 
 
