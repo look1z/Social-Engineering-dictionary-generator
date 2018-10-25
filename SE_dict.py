@@ -4,7 +4,7 @@
 import sys
 import getopt
 
-opts, args = getopt.getopt(sys.argv[1:], "hn:b:c:m:d:p:N:")
+opts, args = getopt.getopt(sys.argv[1:], "hn:b:c:m:d:p:q:i:")
 
 # 默认参数
 name = None
@@ -15,6 +15,7 @@ domain = None
 phone_number = None
 qq_number = None
 name_ab = None
+id = None
 
 # help菜单
 def usage():
@@ -89,7 +90,8 @@ number_value_3 = ["000", "001", "101", "110", "111", "121", "123",
 number_value_4 = ["000000", "111111", "110120", "123321",
                   "123456", "123123",
                   "222222", "333333", "666666", "654321",
-                  "888888", "999999", "1314",   "5201314",
+                  "888888", "999999", "1234", "1314",
+                  "5201314", "1212", "1111", "0000"
                   "123456789", "123123123", "666666666",
                   "888888888", "999999999", "000000000"]
 
@@ -255,6 +257,57 @@ def phone_number_and_name(phone_number, name, name_ab):
     write_dict(dict_list=dict_list, file_name=filename)
 
 
+def id_and_weak(id):
+    # id与弱口令
+    dict_list = list()
+    dict_list.append(id)
+    for weak in weak_password:
+        dict_list.append(id + weak)
+
+    for number_1 in number_value_1:
+        dict_list.append(id + number_1)
+
+    for number_2 in number_value_2:
+        dict_list.append(id + number_2)
+
+    for number_3 in number_value_3:
+        dict_list.append(id + number_3)
+
+    for number_4 in number_value_4:
+        dict_list.append(id + number_4)
+    write_dict(dict_list=dict_list, file_name=filename)
+
+
+#def id_and_name(id,name,name_ab):
+
+def qq_and_weak(qq_number):
+    # qq和弱密码组合
+    dict_list = list()
+    dict_list.append(qq_number)
+    for weak in weak_password:
+        dict_list.append(qq_number + weak)
+        dict_list.append(weak + qq_number)
+
+    write_dict(dict_list=dict_list, file_name=filename)
+
+def qq_and_name(qq_number, name, name_ab):
+    # 名称与qq组合
+    dict_list = list()
+        # 全称+qq
+    dict_list.append(name + qq_number)
+        # 简称+qq
+    for i in name_ab:
+        dict_list.append(i + qq_number)
+
+    for weak in weak_password:
+
+        # 简称与qq与弱口令
+        for i in name_ab:
+            dict_list.append(i + qq_number + weak)
+
+    write_dict(dict_list=dict_list, file_name=filename)
+
+
 if __name__ == "__main__":
 
     #print name,birthday,mail,IDC,domain,number_value_2, name_ab
@@ -281,7 +334,12 @@ if __name__ == "__main__":
         if name:
             name_and_domain(name=name, name_ab=name_ab, domain_list=domain_list)
 
+    if id:
+        id_and_weak(id=id)
 
-
+    if qq_number:
+        qq_and_weak(qq_number=qq_number)
+        if name:
+            qq_and_name(qq_number=qq_number,name=name,name_ab=name_ab)
 
 
