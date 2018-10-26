@@ -278,7 +278,22 @@ def id_and_weak(id):
     write_dict(dict_list=dict_list, file_name=filename)
 
 
-#def id_and_name(id,name,name_ab):
+def id_and_name(id,name,name_ab):
+    dict_list = list()
+
+    dict_list.append(name + id)
+    # 简称+生日
+    for i in name_ab:
+        dict_list.append(i + id)
+        dict_list.append(id + i)
+
+    for weak in weak_password:
+
+        # 简称与生日与弱口令
+        for i in name_ab:
+            dict_list.append(i + id + weak)
+
+    write_dict(dict_list=dict_list, file_name=filename)
 
 def qq_and_weak(qq_number):
     # qq和弱密码组合
@@ -336,6 +351,8 @@ if __name__ == "__main__":
 
     if id:
         id_and_weak(id=id)
+        if name:
+            id_and_name(id=id,name=name,name_ab=name_ab)
 
     if qq_number:
         qq_and_weak(qq_number=qq_number)
