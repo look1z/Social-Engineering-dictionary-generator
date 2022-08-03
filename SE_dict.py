@@ -31,7 +31,7 @@ for options, value in opts:
     elif options == "-n":
         name = value
 
-    # 生日 -b 如19941016
+    # 生日 -b 如19990101
     elif options == "-b":
         if len(value) == 8:
             birthday = value
@@ -57,11 +57,11 @@ for options, value in opts:
     elif options == "-p":
         phone_number = str(value)
 
-    # qq号 -q 如381769096
+    # qq号 -q 如12312345
     elif options == "-q":
         qq_number = value
 
-    # 目标常用id 如look1z
+    # 目标常用id 如look
     elif options == "-i":
         id = value
 
